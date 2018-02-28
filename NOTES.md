@@ -1,4 +1,4 @@
-# craigslist-bikes-cli
+# craigslist_bikes
 
 Building a CLI to search craigslist philly for bikes and display/sort them. Starting with bikes (because I personally don't search craigslist for anything else) and philly (because I live here) but a goal is to build this so it is open to flexible extension.
 

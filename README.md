@@ -2,9 +2,7 @@
 
 Building a CLI to search craigslist philly for bikes and display/sort them. Starting with bikes (because I personally don't search craigslist for anything else) and philly (because I live here) but a goal is to build this so it is open to flexible extension.
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/craigslist_bikes`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Ruby code is in the file `lib/craigslist_bikes`. To experiment with that code, run `bin/console` for an interactive prompt.
 
 ## Installation
 
