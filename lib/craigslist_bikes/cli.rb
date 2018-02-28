@@ -7,6 +7,7 @@ class CraigslistBikes::CLI
     #call craigslist
     #scrape
     #instantiate bike objects
+    instantiate_bikes
 
     #list the bikes
     list_bikes
@@ -18,16 +19,23 @@ class CraigslistBikes::CLI
     goodbye
   end
 
-  def list_bikes
+  def instantiate_bikes
+    #mocks up instantiating some bikes by calling Bike.new with a hash of bike attributes
+    bike_1 = {:name => "Trek HITEN STEEL BICYCLE", :price => "1"}
+    bike_2 = {:name => "Sad looking bike for sale", :price => "20"}
 
+    CraigslistBikes::Bike.new(bike_1)
+    CraigslistBikes::Bike.new(bike_2)
+  end
+
+  def list_bikes
     puts "Bikes on Craigslist:"
 
-    #stub to list bikes using fake data
-    #TODO build a real display of all bikes
-    puts <<-HEREDOC
-      1. Trek HITEN STEEL BICYCLE - $1
-      2. Sad looking bicycle for sale. - $2
-    HEREDOC
+    #call the bikes method on the bike class to list all bikes
+    CraigslistBikes::Bike.bikes.each_with_index {|b, i|
+      puts "#{i+1}. #{b.name} - $#{b.price}"
+    }
+
   end
 
   def menu

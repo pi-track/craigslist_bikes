@@ -1,14 +1,23 @@
 class CraigslistBikes::Bike
-  #i return bikes
 
   attr_accessor :name, :price, :url, :neigborhood, :date, :condition, :make, :model, :size, :mapaddress, :maplink, :contactName, :replyTelNumber, :replyEmail, :description
 
-  bike_1 = self.new
-  bike_1.name = "Trek HITEN STEEL BICYCLE"
+  #collect all instances of bikes
+  @@all = []
 
-  bike_2 = self.new
-  bike_2.name = "Sad looking bicycle for sale."
+  def self.all
+    #expose all instances of bikes
+    @@all
+  end
 
-  [bike_1, bike_2]
+  def initialize(attributes)
+    attributes.each {|key, value| self.send(("#{key}="), value)}
+    @@all << self
+  end
+
+
+  def self.bikes
+    self.all
+  end
 
 end
