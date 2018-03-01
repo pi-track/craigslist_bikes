@@ -1,8 +1,10 @@
 class CraigslistBikes::CLI
 
   def call
+    #displays a welcome message
     welcome
-    CraigslistBikes::Search.get_search_criteria
+    #create a new Search object - the hook gets search criteria
+    search = CraigslistBikes::Search.new
     #generateURL
     #call craigslist
     #scrape
