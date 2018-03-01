@@ -1,5 +1,5 @@
 class CraigslistBikes::Search
-  attr_accessor :search_criteria, :city, :zip_code, :search_radius, :posted_today, :price_min, :price_max, :search_text, :category, :search_URL
+  attr_accessor :search_criteria, :city, :zip_code, :search_radius, :posted_today, :price_min, :price_max, :query, :category, :search_URL
   @@all = []
 
   def self.all
@@ -7,9 +7,12 @@ class CraigslistBikes::Search
     @@all
   end
 
-  def initialize
-    @search_criteria = get_search_criteria
-    @search_criteria.each {|key, value| self.send(("#{key}="), value)}
+  def initialize(search_criteria=get_search_criteria)
+    #@search_criteria = get_search_criteria
+    @category = 'bik' #default to bike
+    @city = 'philadelphia' #default to philadelphia
+    search_criteria.each {|key, value| self.send(("#{key}="), value)}
+    @search_criteria = search_criteria
     @search_URL = self.get_URL
     @@all << self
   end
@@ -21,16 +24,19 @@ class CraigslistBikes::Search
       search_criteria = {}
       puts "What city are you in?"
       search_criteria[:city] = gets.strip
+      puts "What is your zip code?"
+      search_criteria[:zip_code] = gets.strip
       puts "What radius would you like to search (mi)?"
       search_criteria[:search_radius] = gets.strip
       puts "See only items posted_today? (Y/n)"
-      search_criteria[:posted_today] = gets.strip
+      postedToday = gets.strip
+      search_criteria[:posted_today] = '1' if ['yes', 'y', 'yup'].include?(postedToday)
       puts "What is your max price? ($)"
       search_criteria[:price_max] = gets.strip
       puts "What is your min price? ($)"
       search_criteria[:price_min] = gets.strip
       puts "Any words to search for? You can leave this blank."
-      search_criteria[:search_text] = gets.strip
+      search_criteria[:query] = gets.strip
 
       puts "OK - does this search look alright?"
       puts search_criteria
@@ -44,6 +50,6 @@ class CraigslistBikes::Search
   end
 
   def get_URL
-    url = "http://testurl#{self.city}"
+    url = "https://#{self.city}.craigslist.org/search/#{self.category}?query=#{self.query}&search_distance=#{self.search_radius}&postal=#{self.zip_code}&min_price=#{self.price_min}&max_price=#{self.price_max}&postedToday=#{self.posted_today}"
   end
 end
