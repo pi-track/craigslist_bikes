@@ -1,0 +1,3 @@
+class CraigslistBikes::Scraper
+
+end
