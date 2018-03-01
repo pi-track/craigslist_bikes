@@ -2,7 +2,7 @@ class CraigslistBikes::CLI
 
   def call
     welcome
-    get_search_criteria
+    CraigslistBikes::Search.get_search_criteria
     #generateURL
     #call craigslist
     #scrape
