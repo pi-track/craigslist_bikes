@@ -1,9 +1,9 @@
 class CraigslistBikes::CLI
 
   def call
-    #welcome
-    #get_search_criteria
-    #generate URL
+    welcome
+    get_search_criteria
+    #generateURL
     #call craigslist
     #scrape
     #instantiate bike objects
@@ -30,31 +30,41 @@ class CraigslistBikes::CLI
 
   def list_bikes
     puts "Bikes on Craigslist:"
-
     #call the bikes method on the bike class to list all bikes
     CraigslistBikes::Bike.bikes.each_with_index {|b, i|
       puts "#{i+1}. #{b.name} - $#{b.price}"
     }
+  end
 
+  def bike_info(index)
+    #takes the index (+1) of the bike you'd like to see more info on and returns info
+    #may need to move this to the bike class
+    puts "hello from bike_info #{index}."
+    b = CraigslistBikes::Bike.bikes[index.to_i-1]
+    puts "#{b.name} - $#{b.price}"
   end
 
   def menu
     input = nil
     while input != 'exit'
-      puts "Enter the number of the bike you'd like to see more info on or type list to see the list or exit:"
+      puts "Enter the number of the bike you'd like to see more info on or type list to see the list or search for a new search or exit:"
       input = gets.strip.downcase
-      case input
-      when '1'
-        puts "more info on 1..."
-      when '2'
-        puts "more info on 2..."
-      when 'list'
+      if input.to_i > 0
+        puts "more info on #{input}..."
+        bike_info(input)
+      elsif input == 'list'
         list_bikes
-      when 'exit'
+      elsif input == 'search'
+        get_search_criteria
+      elsif input == 'exit'
       else
         puts "not sure what you're looking for... type list or exit"
       end
     end
+  end
+
+  def welcome
+    puts "Hello - welcome to the craigslist bike scraper"
   end
 
   def goodbye

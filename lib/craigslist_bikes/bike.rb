@@ -15,7 +15,6 @@ class CraigslistBikes::Bike
     @@all << self
   end
 
-
   def self.bikes
     self.all
   end

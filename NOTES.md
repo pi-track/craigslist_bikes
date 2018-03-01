@@ -1,3 +1,8 @@
+#Progress 2/28/18
+run bin/console or bin/craigslist-bikes to see where I'm at.
+I'm initializing bikes ok - not sure how i'm going to update them. need to build some methods out for that.
+Haven't started on the scraper.  
+
 # craigslist_bikes
 
 Building a CLI to search craigslist philly for bikes and display/sort them. Starting with bikes (because I personally don't search craigslist for anything else) and philly (because I live here) but a goal is to build this so it is open to flexible extension.
