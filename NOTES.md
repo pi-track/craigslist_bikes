@@ -1,3 +1,9 @@
+#More Progress 3/2/18
+I have a program working that meets the criteria. I need to take a pass and see if there is anywhere I can refactor for simplicity.
+
+##CLI
+1. make search an instance method in the CLI that 1) makes a new search object, makes bikes from it, and list_bikes them. refactor the main loop and the menu.
+
 #Progress 3/2/18
 bin/craigslist_bikes is doing its job and the cli class works through instantiating items(bikes at this point) and displaying a list of them. As I work on it is becoming more and more obvious that I should just make this a generic craigslist scraper, and I can set up a default search that looks for bikes. To do this I'll research a bit to see if other search items have important criteria I'm missing. Another thing I realized is that the right way to solve this problem is really through the RSS reader - this is a good exercise, but not very scalable and a lot more effort than it would be to just eat what the craigslist RSS reader gives me since it is designed exactly for this purpose.. oh well.  
 

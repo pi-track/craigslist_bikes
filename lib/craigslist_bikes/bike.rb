@@ -1,5 +1,4 @@
 class CraigslistBikes::Bike
-
   attr_accessor :name, :price, :url, :neighborhood, :date, :condition, :make, :model, :size, :mapaddress, :maplink, :description
 
   #collect all instances of bikes
@@ -67,5 +66,4 @@ class CraigslistBikes::Bike
     puts "#{description}"
     puts ""
   end
-
 end

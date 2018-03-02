@@ -1,18 +1,12 @@
 class CraigslistBikes::CLI
-
   def call
     #displays a welcome message
     welcome
     #create a new Search object - the hook gets search criteria
     search = CraigslistBikes::Search.new
     search.make_items
-    #list the bikes
     list_bikes
-
-    #menu
     menu
-
-    #say goodbye
     goodbye
   end
 
