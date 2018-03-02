@@ -56,26 +56,11 @@ class CraigslistBikes::Search
   def scrape_search_page
     doc = get_page
     doc.css(".result-row")
-=begin
-    #result rows
-    #doc.css(".result-row").each {|i|
-      #link to the item
-      #i.css("a").attribute("href").value
-    doc.css(".student-card").each {|s|
-      hash = {}
-      hash[:name] = s.css(".student-name").text
-      hash[:location] = s.css(".student-location").text
-      hash[:profile_url] = s.css("a")[0]['href']
-      items << hash
-    }
-    items
-=end
   end
 
   def make_items
     scrape_search_page.each do |i|
-      #binding.pry
-      puts i.css("a").attribute("href").value
+      CraigslistBikes::Bike.new_from_index_page(i)
     end
   end
 

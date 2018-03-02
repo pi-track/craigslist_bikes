@@ -5,13 +5,7 @@ class CraigslistBikes::CLI
     welcome
     #create a new Search object - the hook gets search criteria
     search = CraigslistBikes::Search.new
-    binding.pry
-    search.scrape_search_page(search.search_URL)
-    #call craigslist
-    #scrape
-    #instantiate bike objects
-    instantiate_bikes
-
+    search.make_items
     #list the bikes
     list_bikes
 
@@ -20,15 +14,6 @@ class CraigslistBikes::CLI
 
     #say goodbye
     goodbye
-  end
-
-  def instantiate_bikes
-    #mocks up instantiating some bikes by calling Bike.new with a hash of bike attributes
-    bike_1 = {:name => "Trek HITEN STEEL BICYCLE", :price => "1"}
-    bike_2 = {:name => "Sad looking bike for sale", :price => "20"}
-
-    CraigslistBikes::Bike.new(bike_1)
-    CraigslistBikes::Bike.new(bike_2)
   end
 
   def list_bikes
