@@ -1,5 +1,6 @@
 class CraigslistBikes::Search
   attr_accessor :search_criteria, :city, :zip_code, :search_radius, :posted_today, :price_min, :price_max, :query, :category, :search_URL, :items
+
   @@all = []
 
   def self.all
@@ -8,12 +9,14 @@ class CraigslistBikes::Search
 
   def initialize(search_criteria=get_search_criteria)
     #@search_criteria = get_search_criteria
+    search_criteria.each {|key, value| self.send(("#{key}="), value)}
     @category = 'bik' #default to bike
     @city = 'philadelphia' #default to philadelphia
-    search_criteria.each {|key, value| self.send(("#{key}="), value)}
     @search_criteria = search_criteria
     @search_URL = self.get_URL
     @@all << self
+    make_items
+    list_bikes
   end
 
   def get_search_criteria
@@ -42,7 +45,6 @@ class CraigslistBikes::Search
       input = gets.strip.downcase
       ['yes', 'y', 'yup'].include?(input)? (puts "Cool I'll search and get back to you"):(puts "ok lets try again")
     end
-    #TODO: check if search criteria is valid and
 
     #returns search criteria hash
     if input == 'default' || input == 'd'
@@ -69,4 +71,11 @@ class CraigslistBikes::Search
     @items = items
   end
 
+  def list_bikes
+    puts "Bikes on Craigslist:"
+    #call the bikes method on the bike class to list all bikes
+    self.items.each_with_index {|b, i|
+      puts "#{i+1}. #{b.name} - $#{b.price}"
+    }
+  end
 end

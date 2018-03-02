@@ -1,5 +1,6 @@
 # More Progress 3/2/18
 I have a program working that meets the criteria. I need to take a pass and see if there is anywhere I can refactor for simplicity.
+Made a first_refactor branch to work on refactoring the CLI. 
 
 ## CLI
 1. make search an instance method in the CLI that 1) makes a new search object, makes bikes from it, and list_bikes them. refactor the main loop and the menu.
