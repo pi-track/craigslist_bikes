@@ -29,4 +29,19 @@ class CraigslistBikes::Bike
     CraigslistBikes::Bike.new(attributes)
   end
 
+  def display
+    puts ""
+    puts "----------- #{self.name} -----------"
+    puts ""
+    puts "Location:           #{self.neighborhood}"
+    puts "Price:              #{self.price}"
+    puts ""
+    puts "---------------Description--------------"
+    puts ""
+    puts "#{self.description}"
+    puts ""
+  end
+
+  def 
+
 end

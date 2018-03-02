@@ -10,6 +10,7 @@ class CraigslistBikes::Search
     #@search_criteria = get_search_criteria
     @category = 'bik' #default to bike
     @city = 'philadelphia' #default to philadelphia
+    binding.pry
     search_criteria.each {|key, value| self.send(("#{key}="), value)}
     @search_criteria = search_criteria
     @search_URL = self.get_URL
@@ -45,8 +46,11 @@ class CraigslistBikes::Search
     #TODO: check if search criteria is valid and
 
     #returns search criteria hash
-    search_criteria
-    search_criteria = {:city=>"philadelphia", :zip_code=>"19147", :search_radius=>"3", :posted_today=>"1", :price_max=>"1000", :price_min=>"10", :query=>"bike"} if input == 'default'
+    if input == 'default'
+      search_criteria = {:city=>"philadelphia", :zip_code=>"19147", :search_radius=>"3", :posted_today=>"1", :price_max=>"1000", :price_min=>"10", :query=>"bike"}
+    else
+      search_criteria
+    end
   end
 
   def get_URL
@@ -62,40 +66,5 @@ class CraigslistBikes::Search
     scrape_search_page.each do |i|
       CraigslistBikes::Bike.new_from_index_page(i)
     end
-  end
-
-  def self.scrape_item_page(item_url)
-
-    doc = get_page(item_url)
-
-    #find social attributes
-    social_url = doc.css("div.social-icon-container").children.collect {|a| a['href']}
-    social_url.delete(nil)
-    social = social_url.collect {|s|
-      tag = s.match(/[a-z]+(.com|.co)/)
-      [tag.to_s.split(".")[0].to_sym, s] if tag
-    }
-
-    #add social attributes to the hash
-    hash = {}
-    social.delete(nil)
-    social.each { |n|
-      if (n[0] == :twitter) || (n[0] == :linkedin) || (n[0] == :github)
-        hash[n[0]] = n[1]
-      else
-        hash[:blog] = n[1]
-      end
-    }
-
-    #add profile_quote to the hash
-    hash[:profile_quote] = doc.css("body > div > div.vitals-container > div.vitals-text-container > div").text
-
-    #add bio to the hash
-    hash[:bio] = doc.css("body > div > div.details-container > div.bio-block.details-block > div > div.description-holder > p").text
-    hash
-  end
-
-  def get_page
-    Nokogiri::HTML(open(self.search_URL))
   end
 end
