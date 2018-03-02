@@ -5,7 +5,8 @@ class CraigslistBikes::CLI
     welcome
     #create a new Search object - the hook gets search criteria
     search = CraigslistBikes::Search.new
-    #generateURL
+    binding.pry
+    search.scrape_search_page(search.search_URL)
     #call craigslist
     #scrape
     #instantiate bike objects
@@ -57,7 +58,7 @@ class CraigslistBikes::CLI
       elsif input == 'list'
         list_bikes
       elsif input == 'search'
-        get_search_criteria
+        search.get_search_criteria
       elsif input == 'exit'
       else
         puts "not sure what you're looking for... type list or exit"

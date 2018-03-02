@@ -1,3 +1,9 @@
+#Progress 3/1/18
+bin/craigslist-bikes will show you where I'm at again.
+I built out a search class that asks a user for input and generates a URL to hit craigslist with. Having a search class makes this trivial to extend beyond bikes. I still like doing bikes.
+
+Work on the scraper tomorrow. 
+
 #Progress 2/28/18
 run bin/console or bin/craigslist-bikes to see where I'm at.
 I'm initializing bikes ok - not sure how i'm going to update them. need to build some methods out for that.
@@ -8,7 +14,6 @@ Haven't started on the scraper.
 Building a CLI to search craigslist philly for bikes and display/sort them. Starting with bikes (because I personally don't search craigslist for anything else) and philly (because I live here) but a goal is to build this so it is open to flexible extension.
 
 ## planned functionality
-1. doop doop doop
 
 The user experience is something like this.
 user types craigslist-bikes

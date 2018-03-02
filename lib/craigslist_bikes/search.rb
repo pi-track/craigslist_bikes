@@ -3,7 +3,6 @@ class CraigslistBikes::Search
   @@all = []
 
   def self.all
-    #expose all instances
     @@all
   end
 
@@ -18,9 +17,9 @@ class CraigslistBikes::Search
   end
 
   def get_search_criteria
-    puts "I'm going to ask you for some search criteria and search craigslist for that. Enter to contine. Exit to exit:"
+    puts "I'm going to ask you for some search criteria and search craigslist for that. Enter to contine. Exit to exit. default to default search:"
     input = gets.strip.downcase #waits for an enter
-    while !['yes', 'y', 'yup', 'exit'].include?(input)
+    while !['yes', 'y', 'yup', 'exit', 'default'].include?(input)
       search_criteria = {}
       puts "What city are you in?"
       search_criteria[:city] = gets.strip
@@ -47,9 +46,71 @@ class CraigslistBikes::Search
 
     #returns search criteria hash
     search_criteria
+    search_criteria = {:city=>"philadelphia", :zip_code=>"19147", :search_radius=>"3", :posted_today=>"1", :price_max=>"1000", :price_min=>"10", :query=>"bike"} if input == 'default'
   end
 
   def get_URL
     url = "https://#{self.city}.craigslist.org/search/#{self.category}?query=#{self.query}&search_distance=#{self.search_radius}&postal=#{self.zip_code}&min_price=#{self.price_min}&max_price=#{self.price_max}&postedToday=#{self.posted_today}"
+  end
+
+  def scrape_search_page
+    doc = get_page
+    doc.css(".result-row")
+=begin
+    #result rows
+    #doc.css(".result-row").each {|i|
+      #link to the item
+      #i.css("a").attribute("href").value
+    doc.css(".student-card").each {|s|
+      hash = {}
+      hash[:name] = s.css(".student-name").text
+      hash[:location] = s.css(".student-location").text
+      hash[:profile_url] = s.css("a")[0]['href']
+      items << hash
+    }
+    items
+=end
+  end
+
+  def make_items
+    scrape_search_page.each do |i|
+      #binding.pry
+      puts i.css("a").attribute("href").value
+    end
+  end
+
+  def self.scrape_item_page(item_url)
+
+    doc = get_page(item_url)
+
+    #find social attributes
+    social_url = doc.css("div.social-icon-container").children.collect {|a| a['href']}
+    social_url.delete(nil)
+    social = social_url.collect {|s|
+      tag = s.match(/[a-z]+(.com|.co)/)
+      [tag.to_s.split(".")[0].to_sym, s] if tag
+    }
+
+    #add social attributes to the hash
+    hash = {}
+    social.delete(nil)
+    social.each { |n|
+      if (n[0] == :twitter) || (n[0] == :linkedin) || (n[0] == :github)
+        hash[n[0]] = n[1]
+      else
+        hash[:blog] = n[1]
+      end
+    }
+
+    #add profile_quote to the hash
+    hash[:profile_quote] = doc.css("body > div > div.vitals-container > div.vitals-text-container > div").text
+
+    #add bio to the hash
+    hash[:bio] = doc.css("body > div > div.details-container > div.bio-block.details-block > div > div.description-holder > p").text
+    hash
+  end
+
+  def get_page
+    Nokogiri::HTML(open(self.search_URL))
   end
 end
