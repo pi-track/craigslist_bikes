@@ -27,9 +27,9 @@ class CraigslistBikes::CLI
   def bike_info(index)
     #takes the index (+1) of the bike you'd like to see more info on and returns info
     #may need to move this to the bike class
-    puts "hello from bike_info #{index}."
     #TODO scrape the item page
-    b = CraigslistBikes::Bike.bikes[index.to_i-1]
+    b = CraigslistBikes::Search.all.last.items[index.to_i-1]
+    b.scrape_item_page
     b.display
   end
 

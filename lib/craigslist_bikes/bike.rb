@@ -1,6 +1,6 @@
 class CraigslistBikes::Bike
 
-  attr_accessor :name, :price, :url, :neighborhood, :date, :condition, :make, :model, :size, :mapaddress, :maplink, :contactName, :replyTelNumber, :replyEmail, :description
+  attr_accessor :name, :price, :url, :neighborhood, :date, :condition, :make, :model, :size, :mapaddress, :maplink, :description
 
   #collect all instances of bikes
   @@all = []
@@ -30,19 +30,41 @@ class CraigslistBikes::Bike
   end
 
   def scrape_item_page
-    
+    doc = Nokogiri::HTML(open(url))
+
+    #adds attributes - condition make model size
+    doc.css("body > section > section > section > div.mapAndAttrs > p > span").each do |a|
+      self.send("#{a.text.split(":").first.split.first}=","#{a.text.split(":").last}")
+    end
+
+    #adds additional attributes
+    @description = doc.css("#postingbody").text.gsub("QR Code Link to This Post","")
+    @mapaddress = doc.css("body > section > section > section > div.mapAndAttrs > div > div.mapaddress").text
+    @maplink = doc.css("body > section > section > section > div.mapAndAttrs > div > p > small > a").attribute("href").value
   end
 
   def display
+    required_attrs = [:name, :price, :url, :date, :description]
+    optional_attrs = [:neighborhood, :condition, :make, :model, :size, :mapaddress, :maplink]
     puts ""
-    puts "----------- #{self.name} -----------"
+    puts "----------------------------------------"
     puts ""
-    puts "Location:           #{self.neighborhood}"
-    puts "Price:              #{self.price}"
+    required_attrs.each do |a|
+      title = a.to_s
+      title[0] = title[0].capitalize
+      puts "#{title}:           #{send(a.to_s)}"
+    end
+    optional_attrs.each do |a|
+      if send(a.to_s)
+        title = a.to_s
+        title[0] = title[0].capitalize
+        puts "#{title}:           #{send(a.to_s)}"
+      end
+    end
     puts ""
     puts "---------------Description--------------"
     puts ""
-    puts "#{self.description}"
+    puts "#{description}"
     puts ""
   end
 
