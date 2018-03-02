@@ -1,5 +1,5 @@
 class CraigslistBikes::Search
-  attr_accessor :search_criteria, :city, :zip_code, :search_radius, :posted_today, :price_min, :price_max, :query, :category, :search_URL
+  attr_accessor :search_criteria, :city, :zip_code, :search_radius, :posted_today, :price_min, :price_max, :query, :category, :search_URL, :items
   @@all = []
 
   def self.all
@@ -10,7 +10,6 @@ class CraigslistBikes::Search
     #@search_criteria = get_search_criteria
     @category = 'bik' #default to bike
     @city = 'philadelphia' #default to philadelphia
-    binding.pry
     search_criteria.each {|key, value| self.send(("#{key}="), value)}
     @search_criteria = search_criteria
     @search_URL = self.get_URL
@@ -20,7 +19,7 @@ class CraigslistBikes::Search
   def get_search_criteria
     puts "I'm going to ask you for some search criteria and search craigslist for that. Enter to contine. Exit to exit. default to default search:"
     input = gets.strip.downcase #waits for an enter
-    while !['yes', 'y', 'yup', 'exit', 'default'].include?(input)
+    while !['yes', 'y', 'yup', 'exit', 'default', 'd'].include?(input)
       search_criteria = {}
       puts "What city are you in?"
       search_criteria[:city] = gets.strip
@@ -46,7 +45,7 @@ class CraigslistBikes::Search
     #TODO: check if search criteria is valid and
 
     #returns search criteria hash
-    if input == 'default'
+    if input == 'default' || input == 'd'
       search_criteria = {:city=>"philadelphia", :zip_code=>"19147", :search_radius=>"3", :posted_today=>"1", :price_max=>"1000", :price_min=>"10", :query=>"bike"}
     else
       search_criteria
@@ -58,13 +57,16 @@ class CraigslistBikes::Search
   end
 
   def scrape_search_page
-    doc = get_page
+    doc = Nokogiri::HTML(open(self.search_URL))
     doc.css(".result-row")
   end
 
   def make_items
+    items = []
     scrape_search_page.each do |i|
-      CraigslistBikes::Bike.new_from_index_page(i)
+      items << CraigslistBikes::Bike.new_from_index_page(i)
     end
+    @items = items
   end
+
 end

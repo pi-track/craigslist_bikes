@@ -29,6 +29,10 @@ class CraigslistBikes::Bike
     CraigslistBikes::Bike.new(attributes)
   end
 
+  def scrape_item_page
+    
+  end
+
   def display
     puts ""
     puts "----------- #{self.name} -----------"
@@ -41,7 +45,5 @@ class CraigslistBikes::Bike
     puts "#{self.description}"
     puts ""
   end
-
-  def 
 
 end

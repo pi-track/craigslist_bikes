@@ -3,7 +3,7 @@ bin/craigslist_bikes is doing its job and the cli class works through instantiat
 
 I refactored to get rid of my separate scraper class - it is now a sub-class of the search class. It's working better and is a more logical flow than the way I had it before because the data (url) and the relevant methods (scrape that url) are within the same object.
 
-I'm going to record a screencast now of myself working on the code.
+I'm going to record a screencast (https://youtu.be/srrMLBx5FeI) now of myself working on the code.
 
 Goals:
 

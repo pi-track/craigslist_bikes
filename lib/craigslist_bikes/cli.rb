@@ -19,7 +19,7 @@ class CraigslistBikes::CLI
   def list_bikes
     puts "Bikes on Craigslist:"
     #call the bikes method on the bike class to list all bikes
-    CraigslistBikes::Bike.bikes.each_with_index {|b, i|
+    CraigslistBikes::Search.all.last.items.each_with_index {|b, i|
       puts "#{i+1}. #{b.name} - $#{b.price}"
     }
   end
@@ -44,7 +44,9 @@ class CraigslistBikes::CLI
       elsif input == 'list'
         list_bikes
       elsif input == 'search'
-        search.get_search_criteria
+        search = CraigslistBikes::Search.new
+        search.make_items
+        list_bikes
       elsif input == 'exit'
       else
         puts "not sure what you're looking for... type list or exit"
